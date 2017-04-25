@@ -1,0 +1,1 @@
+var user = {"yxm_admin":{"password":"123456","date":"20170531"},"yxm_test":{"password":"123456","date":"20170531"}};
