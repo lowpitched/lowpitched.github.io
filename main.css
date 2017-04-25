@@ -2,7 +2,7 @@
   max-width:310px;
   height:336px;
   margin:30px auto;
-  border:1px solid rgba(148, 144, 147, 1);
+  border:1px solid rgba(147, 147, 147, 0.5);
   #background-color: rgba(148, 144, 147, 0.5);
   #border-radius: 10px;
 }
@@ -12,9 +12,61 @@
   margin-left: 2px;
   margin-right: 2px;
   height:150px;
-  background-color: #337ab7;
+  #background-color: #337ab7;
+  text-align: center;
+  color:white;
+  word-spacing: 8px;
+  letter-spacing: 3px;
+  overflow: hidden;
+}
+
+.block-info-header img{
+  width:100%;
+  display:block;
+  vertical-align: middle;
+  margin:auto;
+}
+.block-info-body-title{
+  text-align: center;
+  margin:10px auto;
+}
+.block-info-body-title a{
+  font-size: 25px;
+  text-align: center;
+  color:#3272aa;
+  text-decoration: none;
+}
+
+.block-info-body-title a:hover{
+  color:#23527c;
+}
+
+.block-info-body-content{
+  text-align: left;
 }
 
 .block-info-body{
-
+  color:rgba(7, 8, 7, 0.77);
+  text-align:center;
+  padding:10px 20px;
+  line-height: 23px;
+  font-size: 16px;
+  word-spacing: 10px;
+  letter-spacing: 2px;
+  font-family: '微软雅黑';
+}
+.title{
+  margin: 30px 0 0 0;
+  padding: 0;
+  background-color: rgba(164, 50, 60, 0.9);
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  border-top-left-radius: 20px;
+  height:40px;
+}
+.hr-divider{
+  height: 0px;
+  width:100%;
+  border: 3px solid rgba(164, 50, 60, 0.9);
 }
