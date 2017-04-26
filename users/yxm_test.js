@@ -1,0 +1,1 @@
+var user = {Password:'123456',Date:'20170426'}
