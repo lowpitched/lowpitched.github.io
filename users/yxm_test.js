@@ -1,1 +1,1 @@
-var user = {Password:'123456',date:'20170426'}
+{Password:'123456',date:'20170426'}
