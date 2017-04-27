@@ -1,3 +1,7 @@
+*{
+  font-family:Georgia,"Xin Gothic","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+  letter-spacing: 1px;
+}
 .block-info{
   max-width:310px;
   height:336px;
