@@ -30,6 +30,14 @@
   <div class="panel panel-primary" style="box-shadow:0px 0px 10px">
     <div class="panel-heading" style="font-size:25px;letter-spacing:2px;">我的博客</div>
     <div class="panel-body">
+      <div class="col-md-6 col-md-offset-3" style="margin-bottom:40px;margin-top:30px;">
+          <div class="input-group input-group-lg">
+              <input type="text" class="form-control" id="search-form">
+              <span class="input-group-btn">
+                  <button id="search-btn" class="btn btn-primary" type="button">搜索</button>
+              </span>
+          </div>
+      </div>
       <table class="table">
         <tr>
           <td><div class="blog-unit"><a href="#">我是标题</a><div class="blog-snipshot">我是概要fwejhwegohgo...</div></div></td>
@@ -53,7 +61,7 @@
           <td><div class="blog-unit"><a href="#">我是标题</a><div class="blog-snipshot">我是概要fwejhwegohgo...</div></div></td>
         </tr>
         <tr>
-          <td><div class="blog-unit"><a href="#">我是标题</a><div class="blog-snipshot">我是概要fwejhwegohgo...</div></div></td>
+          <td><div class="blog-unit"><a href="#">搜索测试</a><div class="blog-snipshot">我是概要fwejhwegohgo...</div></div></td>
         </tr>
       </table>
     </div>
@@ -89,6 +97,20 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="../blog.js"></script>
 <script type="text/javascript">
+
+$('#search-btn').bind('click',function(){
+  var searchKey = $('#search-form').val();
+  var table = $('.table a').each(function(){
+    var title = $(this).html();
+    if(null==searchKey||''==searchKey){
+       location.reload();
+    }
+    if(title.indexOf(searchKey)==-1){
+      $(this).parents('tr').remove();
+    }
+  });
+});
+
 $('#skillTreeBar').bind('click',function(){
   location.href="../index.html?active="+$(this).attr('id');
 });
