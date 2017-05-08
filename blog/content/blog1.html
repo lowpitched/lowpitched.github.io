@@ -1,0 +1,62 @@
+<html>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../blog.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header" style="margin:0px 50px 0px 0px;">
+          <a href="#" class="navbar-brand"><i class="glyphicon glyphicon-home"></i> 孟立豪的主页</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class=""><a id="skillTreeBar" href="#"><i class="glyphicon glyphicon-tree-deciduous"></i> 技能树</a></li>
+            <li class=""><a id="websitNavBar" href="#"><i class="glyphicon glyphicon-link"></i> 网址导航</a></li>
+            <li class="active"><a href="javascript:;"><i class="glyphicon glyphicon-file"></i> 个人博客</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">生活区</a></li>
+            <li><a href="#">联系我</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container blog-container">
+      <div class="blog-body" id="blogBody">
+        <div class="blog-title">weblogic是如何通过JNDI把数据源交给应用系统的</div>
+                    <val data-name="blog_content_type" data-value="richtext"></val>
+                    <div class="BlogContent">
+                        <p>我负责的其中一个系统一直存在session越来越大最后会超过数据库设置最大值的问题。由于目前上线用户业务量不大。所以暂时没有危险。为了解决这个问题，我花了近三天的时间。今天终于找到问题所在，真是千里之堤溃于蚁穴啊。</p>
+        <p>由于系统采用了我写的一个责任链式的小框架，其中有事务开启和事务结束节点、循环节点等。所以并不像一般顺序代码那样直接检查代码就能排查出问题。这里我不是要讲怎么去看代码。而是怎么不用仔细过代码也能找出问题思路。</p>
+        <p>首先session过大，我初步判断是因为有数据库链接没关。但是因为我们的业务类采用的都是我写的节点模板，开连接和关连接都是模板负责的，所以又大概可判断应该不是业务代码的问题，而是我流程引擎或者基类除了问题。然后花了两天时间在代码里面各种打印session数量。为了监控我操作时的session数量还写了个0.5秒扫描一次session数量的工具。这些无用功就不在此赘言。</p>
+        <p>一开始我的思路是在节点之间打印session数量，看是哪个节点去开新session了。定位到节点之后狠命过代码，可是就是找不到没有关链接的地方。后来才发现我的思路是错的。我不应该找开新session的位置。因为这些地方是因为前面已经把连接池 的资源用没了才不得已开的新session。所以问题的根源应该是开新session的前面。但是前面定位就太大了。为了能定位精准点。我想了个办法。</p>
+        <p>系统取链接池管理连接，调用层级在深也逃不过连接池。于是我决定从链接池下手。我们系统连接池采用的是C3P0。于是我去官网下了C3P0的源码，把CombPoolDataSource 类的getConnection()方法改动下，加了行往数据库里插入了conntion的hashCode、和conntion的toString值的代码。然后把NewProxyConnection类的close()方法同样向数据库插入了这些信息。（插入动作我用的是JDBC，连接池还没起来，不可能从连接池去获取链接）。</p>
+        <p>表结构大致是</p>
+        <p>连接类型(0关 1开) 、connection的toString、 Connection的hashCode。如下图</p>
+        <p><img height="421" src="http://static.oschina.net/uploads/space/2016/0525/131303_Ku27_1032172.png" width="861"></p>
+        <p>系统每一步操作我都会用下面的sql查询一下未关的连接</p>
+        <p>select connobj,objhash from t_ta_sessionmonitor where conntype='1'<br> minus<br> select connobj,objhash from t_ta_sessionmonitor where conntype='0'</p>
+        <p>我前面说了，我已经在系统节点之间打印了session的toString。然后根据找出的未关闭的连接找到控制台打印出的session。于是就能定位到是哪个节点类没有关闭连接。剩下的就是仔细阅读代码，查出哪里没有关闭。</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+      </div>
+     </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" >
+      $('#skillTreeBar').bind('click',function(){
+        location.href="../../index.html?active="+$(this).attr('id');
+      });
+
+      $('#websitNavBar').bind('click',function(){
+        location.href="../../index.html?active="+$(this).attr('id');
+      });
+    </script>
+  </body>
+</html>
